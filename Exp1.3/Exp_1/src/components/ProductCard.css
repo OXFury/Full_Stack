@@ -1,0 +1,39 @@
+.card {
+  background: #c8e6c9;
+  border-radius: 12px;
+  padding: 16px;
+  width: 220px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.price {
+  font-weight: bold;
+  color: #1b5e20;
+}
+
+.stock {
+  padding: 6px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.in {
+  background-color: #2e7d32;
+  color: white;
+}
+
+.out {
+  background-color: #a5d6a7;
+  color: #1b5e20;
+}
