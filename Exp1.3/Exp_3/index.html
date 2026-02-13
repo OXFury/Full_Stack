@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Person Student Teacher - OOP Demo</title>
+
+  <!-- React CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px gray;
+    }
+
+    .card {
+      background: #e3e3e3;
+      padding: 15px;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+
+  // Base Class
+  class Person {
+    constructor(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+
+    getRole() {
+      return "Person";
+    }
+
+    getDetails() {
+      return `${this.name}, Age: ${this.age}, Role: ${this.getRole()}`;
+    }
+  }
+
+  // Student class extends Person
+  class Student extends Person {
+    constructor(name, age, course) {
+      super(name, age);
+      this.course = course;
+    }
+
+    getRole() {
+      return "Student";
+    }
+  }
+
+  // Teacher class extends Person
+  class Teacher extends Person {
+    constructor(name, age, subject) {
+      super(name, age);
+      this.subject = subject;
+    }
+
+    getRole() {
+      return "Teacher";
+    }
+  }
+
+  function App() {
+
+    const people = [
+      new Student("Rahul", 20, "Computer Science"),
+      new Teacher("Dr. Sharma", 45, "Mathematics"),
+      new Student("Anita", 22, "AI"),
+      new Teacher("Mrs. Gupta", 38, "Physics")
+    ];
+
+    return (
+      <div className="container">
+        <h1>OOP with Inheritance & Polymorphism</h1>
+
+        {people.map((person, index) => (
+          <div className="card" key={index}>
+            {person.getDetails()}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+</body>
+</html>
