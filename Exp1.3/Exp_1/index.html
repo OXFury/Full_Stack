@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Product Card</title>
+  <title>Product Card - React</title>
 
   <!-- React CDN -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-  <!-- Babel -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 
   <style>
     body {
       font-family: Arial;
+      background: #f4f4f4;
+      padding: 20px;
     }
+
     .container {
       display: flex;
       gap: 20px;
-      padding: 20px;
+      justify-content: center;
     }
+
     .card {
       width: 250px;
       border-radius: 10px;
       box-shadow: 0 0 10px gray;
       padding: 10px;
       text-align: center;
+      background: white;
     }
+
     img {
       width: 100%;
       border-radius: 8px;
     }
+
     .in {
       color: green;
       font-weight: bold;
     }
+
     .out {
       color: red;
       font-weight: bold;
@@ -42,43 +47,40 @@
 </head>
 
 <body>
-
 <div id="root"></div>
 
-<script type="text/babel">
+<script>
+  const e = React.createElement;
+
   function ProductCard(props) {
-    return (
-      <div className="card">
-        <img src={props.image} />
-        <h2>{props.name}</h2>
-        <p>Price: ₹{props.price}</p>
-        <p className={props.stock ? "in" : "out"}>
-          {props.stock ? "In Stock" : "Out of Stock"}
-        </p>
-      </div>
+    return e("div", { className: "card" },
+      e("img", { src: props.image }),
+      e("h2", null, props.name),
+      e("p", null, "Price: ₹" + props.price),
+      e("p", { className: props.stock ? "in" : "out" },
+        props.stock ? "In Stock" : "Out of Stock"
+      )
     );
   }
 
   function App() {
-    return (
-      <div className="container">
-        <ProductCard 
-          name="Mobile"
-          price="12000"
-          image="https://via.placeholder.com/200"
-          stock={true}
-        />
-        <ProductCard 
-          name="Keyboard"
-          price="1500"
-          image="https://via.placeholder.com/200"
-          stock={false}
-        />
-      </div>
+    return e("div", { className: "container" },
+      e(ProductCard, {
+        name: "Laptop",
+        price: "45000",
+        image: "https://via.placeholder.com/200",
+        stock: true
+      }),
+      e(ProductCard, {
+        name: "Headphones",
+        price: "2500",
+        image: "https://via.placeholder.com/200",
+        stock: false
+      })
     );
   }
 
-  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  ReactDOM.render(e(App), document.getElementById("root"));
 </script>
 
 </body>
