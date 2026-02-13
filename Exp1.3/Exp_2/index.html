@@ -4,21 +4,14 @@
   <title>Library Management System</title>
 
   <!-- React CDN -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-  <!-- Babel -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 
   <style>
     body {
       font-family: Arial;
       background: #f4f4f4;
       padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
     }
 
     .container {
@@ -56,7 +49,8 @@
 <body>
 <div id="root"></div>
 
-<script type="text/babel">
+<script>
+  const e = React.createElement;
 
   function App() {
     const [books, setBooks] = React.useState([
@@ -68,65 +62,60 @@
     const [title, setTitle] = React.useState("");
     const [author, setAuthor] = React.useState("");
 
-    // Add book
-    const addBook = () => {
+    function addBook() {
       if (title === "" || author === "") return;
 
-      setBooks([
-        ...books,
-        { id: Date.now(), title: title, author: author }
-      ]);
-
+      setBooks([...books, { id: Date.now(), title, author }]);
       setTitle("");
       setAuthor("");
-    };
+    }
 
-    // Remove book
-    const removeBook = (id) => {
+    function removeBook(id) {
       setBooks(books.filter(book => book.id !== id));
-    };
+    }
 
-    // Search filter
     const filteredBooks = books.filter(book =>
       book.title.toLowerCase().includes(search.toLowerCase())
     );
 
-    return (
-      <div className="container">
-        <h1>Library Management System</h1>
+    return e("div", { className: "container" },
+      e("h1", null, "Library Management System"),
 
-        <input 
-          type="text" 
-          placeholder="Search book..." 
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      e("input", {
+        placeholder: "Search book...",
+        value: search,
+        onChange: ev => setSearch(ev.target.value)
+      }),
 
-        <h3>Add New Book</h3>
-        <input 
-          type="text" 
-          placeholder="Book Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <input 
-          type="text" 
-          placeholder="Author Name"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-        />
-        <br/>
-        <button onClick={addBook}>Add Book</button>
+      e("h3", null, "Add New Book"),
 
-        <h3>Book List</h3>
-        {filteredBooks.map(book => (
-          <div className="book" key={book.id}>
-            <span>{book.title} - {book.author}</span>
-            <button onClick={() => removeBook(book.id)}>Remove</button>
-          </div>
-        ))}
-      </div>
+      e("input", {
+        placeholder: "Book Title",
+        value: title,
+        onChange: ev => setTitle(ev.target.value)
+      }),
+
+      e("input", {
+        placeholder: "Author Name",
+        value: author,
+        onChange: ev => setAuthor(ev.target.value)
+      }),
+
+      e("br"),
+      e("button", { onClick: addBook }, "Add Book"),
+
+      e("h3", null, "Book List"),
+
+      filteredBooks.map(book =>
+        e("div", { className: "book", key: book.id },
+          e("span", null, book.title + " - " + book.author),
+          e("button", { onClick: () => removeBook(book.id) }, "Remove")
+        )
+      )
     );
   }
 
-  ReactDOM.createRoot(document.getElementById("root")).ren
+  ReactDOM.render(e(App), document.getElementById("root"));
+</script>
+</body>
+</html>
