@@ -1,24 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Person Student Teacher - OOP Demo</title>
+  <title>OOP Inheritance Demo</title>
 
   <!-- React CDN -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-  <!-- Babel -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 
   <style>
     body {
       font-family: Arial;
       background: #f2f2f2;
       padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
     }
 
     .container {
@@ -42,7 +35,8 @@
 <body>
 <div id="root"></div>
 
-<script type="text/babel">
+<script>
+  const e = React.createElement;
 
   // Base Class
   class Person {
@@ -50,42 +44,37 @@
       this.name = name;
       this.age = age;
     }
-
     getRole() {
       return "Person";
     }
-
     getDetails() {
-      return `${this.name}, Age: ${this.age}, Role: ${this.getRole()}`;
+      return this.name + ", Age: " + this.age + ", Role: " + this.getRole();
     }
   }
 
-  // Student class extends Person
+  // Student subclass
   class Student extends Person {
     constructor(name, age, course) {
       super(name, age);
       this.course = course;
     }
-
     getRole() {
       return "Student";
     }
   }
 
-  // Teacher class extends Person
+  // Teacher subclass
   class Teacher extends Person {
     constructor(name, age, subject) {
       super(name, age);
       this.subject = subject;
     }
-
     getRole() {
       return "Teacher";
     }
   }
 
   function App() {
-
     const people = [
       new Student("Rahul", 20, "Computer Science"),
       new Teacher("Dr. Sharma", 45, "Mathematics"),
@@ -93,21 +82,19 @@
       new Teacher("Mrs. Gupta", 38, "Physics")
     ];
 
-    return (
-      <div className="container">
-        <h1>OOP with Inheritance & Polymorphism</h1>
+    return e("div", { className: "container" },
+      e("h1", null, "OOP with Inheritance & Polymorphism"),
 
-        {people.map((person, index) => (
-          <div className="card" key={index}>
-            {person.getDetails()}
-          </div>
-        ))}
-      </div>
+      people.map(function(person, index) {
+        return e("div", { className: "card", key: index },
+          person.getDetails()
+        );
+      })
     );
   }
 
-  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-
+  ReactDOM.render(e(App), document.getElementById("root"));
 </script>
+
 </body>
 </html>
