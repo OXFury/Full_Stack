@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Product Card</title>
+
+  <!-- React CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      width: 250px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px gray;
+      padding: 10px;
+      text-align: center;
+    }
+    img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    .in {
+      color: green;
+      font-weight: bold;
+    }
+    .out {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+  function ProductCard(props) {
+    return (
+      <div className="card">
+        <img src={props.image} />
+        <h2>{props.name}</h2>
+        <p>Price: ₹{props.price}</p>
+        <p className={props.stock ? "in" : "out"}>
+          {props.stock ? "In Stock" : "Out of Stock"}
+        </p>
+      </div>
+    );
+  }
+
+  function App() {
+    return (
+      <div className="container">
+        <ProductCard 
+          name="Mobile"
+          price="12000"
+          image="https://via.placeholder.com/200"
+          stock={true}
+        />
+        <ProductCard 
+          name="Keyboard"
+          price="1500"
+          image="https://via.placeholder.com/200"
+          stock={false}
+        />
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+
+</body>
+</html>
