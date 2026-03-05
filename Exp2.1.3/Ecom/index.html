@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>E-commerce Catalog</title>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f4f4;
+padding:30px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px gray;
+}
+
+.variant{
+background:#e8e8e8;
+padding:10px;
+margin-top:8px;
+border-radius:5px;
+}
+
+.review{
+background:#f2f2f2;
+padding:8px;
+margin-top:5px;
+border-radius:5px;
+}
+
+button{
+padding:6px 10px;
+margin-top:5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="root"></div>
+
+<script>
+
+const e = React.createElement;
+
+function App(){
+
+const [product,setProduct] = React.useState({
+
+name:"Premium Headphones",
+
+category:"Electronics",
+
+variants:[
+{
+sku:"HP-BL-001",
+color:"Black",
+price:199.99,
+stock:15
+},
+{
+sku:"HP-WH-001",
+color:"White",
+price:209.99,
+stock:8
+}
+],
+
+reviews:[
+{
+userId:"65f4a8b7c1e6a8c1f4b8c7d1",
+rating:5,
+comment:"Excellent sound quality"
+}
+],
+
+avgRating:5
+
+});
+
+function updateStock(index){
+
+let updated={...product};
+
+updated.variants[index].stock--;
+
+setProduct({...updated});
+
+}
+
+function addReview(){
+
+let rating=prompt("Enter rating (1-5)");
+let comment=prompt("Enter comment");
+
+let updated={...product};
+
+updated.reviews.push({
+
+userId:"User"+Math.floor(Math.random()*1000),
+
+rating:Number(rating),
+
+comment:comment
+
+});
+
+let avg = updated.reviews.reduce((a,b)=>a+b.rating,0) / updated.reviews.length;
+
+updated.avgRating = avg.toFixed(1);
+
+setProduct({...updated});
+
+}
+
+return e("div",{className:"container"},
+
+e("h1",null,product.name),
+
+e("p",null,"Category: "+product.category),
+
+e("h3",null,"Variants"),
+
+product.variants.map((v,i)=>
+
+e("div",{className:"variant",key:v.sku},
+
+e("p",null,"SKU: "+v.sku),
+
+e("p",null,"Color: "+v.color),
+
+e("p",null,"Price: $"+v.price),
+
+e("p",null,"Stock: "+v.stock),
+
+e("button",{onClick:()=>updateStock(i)},"Buy (Reduce Stock)")
+)
+
+),
+
+e("h3",null,"Reviews"),
+
+product.reviews.map((r,i)=>
+
+e("div",{className:"review",key:i},
+
+e("p",null,"User: "+r.userId),
+
+e("p",null,"Rating: "+r.rating),
+
+e("p",null,r.comment)
+
+)
+
+),
+
+e("h3",null,"Average Rating: "+product.avgRating),
+
+e("button",{onClick:addReview},"Add Review")
+
+);
+
+}
+
+ReactDOM.render(e(App),document.getElementById("root"));
+
+</script>
+
+</body>
+</html>
