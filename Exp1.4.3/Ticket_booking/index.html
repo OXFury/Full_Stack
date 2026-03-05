@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Concurrent Ticket Booking System</title>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+<style>
+body{
+font-family:Arial;
+background:#f4f4f4;
+padding:30px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px gray;
+}
+
+.seatGrid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+margin-top:20px;
+}
+
+.seat{
+padding:15px;
+text-align:center;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.available{
+background:#9cff9c;
+}
+
+.locked{
+background:#ffe066;
+}
+
+.booked{
+background:#ff8080;
+}
+
+button{
+padding:8px 12px;
+margin-top:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="root"></div>
+
+<script>
+
+const e = React.createElement;
+
+function App(){
+
+const [seats,setSeats] = React.useState([
+{id:"A1",status:"available"},
+{id:"A2",status:"available"},
+{id:"A3",status:"available"},
+{id:"A4",status:"available"},
+{id:"B1",status:"available"},
+{id:"B2",status:"available"},
+{id:"B3",status:"available"},
+{id:"B4",status:"available"}
+]);
+
+function lockSeat(index){
+
+let updated=[...seats];
+
+if(updated[index].status==="available"){
+
+updated[index].status="locked";
+
+setSeats(updated);
+
+setTimeout(()=>{
+
+updated[index].status="booked";
+
+setSeats([...updated]);
+
+},2000);
+
+}
+
+}
+
+function simulateUsers(){
+
+for(let i=0;i<5;i++){
+
+setTimeout(()=>{
+
+let random=Math.floor(Math.random()*seats.length);
+
+lockSeat(random);
+
+},Math.random()*2000);
+
+}
+
+}
+
+return e("div",{className:"container"},
+
+e("h1",null,"Concurrent Ticket Booking System"),
+
+e("p",null,"Green = Available | Yellow = Locked | Red = Booked"),
+
+e("div",{className:"seatGrid"},
+
+seats.map((seat,index)=>
+
+e("div",
+{
+key:seat.id,
+className:"seat "+seat.status,
+onClick:()=>lockSeat(index)
+},
+seat.id+" ("+seat.status+")"
+)
+
+)
+
+),
+
+e("button",{onClick:simulateUsers},"Simulate Concurrent Users")
+
+);
+
+}
+
+ReactDOM.render(e(App),document.getElementById("root"));
+
+</script>
+
+</body>
+</html>
